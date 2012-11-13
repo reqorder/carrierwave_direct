@@ -22,11 +22,20 @@ module CarrierWaveDirect
       mod.class_eval <<-RUBY, __FILE__, __LINE__+1
 
         def key
-          send(:#{column}).key
+          @key
         end
 
         def key=(k)
+          @key = k
+        end
+
+        def #{column}_key
+          send(:#{column}).key
+        end
+
+        def #{column}_key=(k)
           send(:#{column}).key = k
+          key = k
         end
 
         def has_#{column}_upload?

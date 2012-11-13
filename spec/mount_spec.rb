@@ -52,7 +52,7 @@ describe CarrierWaveDirect::Mount do
       end
     end
 
-    it_should_delegate(:key, :to => "video#key", :accessible => {"has_video_upload?" => false})
+    it_should_delegate(:video_key, :to => "video#key", :accessible => {"has_video_upload?" => false})
 
   end
 end

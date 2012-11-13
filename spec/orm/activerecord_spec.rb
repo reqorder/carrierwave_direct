@@ -87,7 +87,7 @@ describe CarrierWaveDirect::ActiveRecord do
     shared_examples_for "without an upload" do
       before do
         subject.remote_video_net_url = remote_video_net_url
-        subject.key = upload_path
+        subject.video_key = upload_path
       end
 
       it "should not be valid on create" do
@@ -136,13 +136,13 @@ describe CarrierWaveDirect::ActiveRecord do
 
       context "another Party with a duplicate video filename" do
         before do
-          subject.video.key = sample_key
+          subject.video_key = sample_key
           subject.save
         end
 
         let(:another_party) do
           another_party = party_class.new
-          another_party.video.key = subject.video.key
+          another_party.video_key = subject.video_key
           another_party
         end
 
@@ -177,7 +177,7 @@ describe CarrierWaveDirect::ActiveRecord do
       context "where the file upload is" do
         context "nil" do
           before do
-            subject.key = nil
+            subject.video_key = nil
           end
 
           it "should be valid" do
@@ -187,7 +187,7 @@ describe CarrierWaveDirect::ActiveRecord do
 
         context "blank" do
           before do
-            subject.key = ""
+            subject.video_key = ""
           end
 
           it "should be valid" do
@@ -203,7 +203,7 @@ describe CarrierWaveDirect::ActiveRecord do
 
         context "and the uploaded file's extension is included in the list" do
           before do
-            subject.key = sample_key(:extension => "avi")
+            subject.video_key = sample_key(:extension => "avi")
           end
 
           it "should be valid" do
@@ -213,7 +213,7 @@ describe CarrierWaveDirect::ActiveRecord do
 
         context "but uploaded file's extension is not included in the list" do
           before do
-            subject.key = sample_key(:extension => "mp3")
+            subject.video_key = sample_key(:extension => "mp3")
           end
 
           it_should_behave_like "an invalid filename"
@@ -433,7 +433,7 @@ describe CarrierWaveDirect::ActiveRecord do
 
         context "with an upload by file" do
           before do
-            subject.key = sample_key
+            subject.video_key = sample_key
           end
 
           it "should be valid" do
@@ -485,7 +485,7 @@ describe CarrierWaveDirect::ActiveRecord do
 
     describe "#key" do
       it "should be accessible" do
-        party_class.new(:key => "some key").key.should == "some key"
+        party_class.new(:video_key => "some key").video_key.should == "some key"
       end
     end
 
@@ -519,7 +519,7 @@ describe CarrierWaveDirect::ActiveRecord do
       context "has an upload" do
         context "with a valid filename" do
           before do
-            subject.key = sample_key(:model_class => subject.class)
+            subject.video_key = sample_key(:model_class => subject.class)
           end
 
           it "should be true" do
@@ -530,7 +530,7 @@ describe CarrierWaveDirect::ActiveRecord do
         end
 
         context "with an invalid filename" do
-          before { subject.key = sample_key(:model_class => subject.class, :valid => false) }
+          before { subject.video_key = sample_key(:model_class => subject.class, :valid => false) }
 
           it "should be false" do
             subject.filename_valid?.should be_false

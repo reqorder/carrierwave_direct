@@ -21,7 +21,7 @@ module CarrierWaveDirect
 
       class FilenameFormatValidator < ::ActiveModel::EachValidator
         def validate_each(record, attribute, value)
-          if record.new_record? && record.send("has_#{attribute}_upload?") && record.key !~ record.send(attribute).key_regexp
+          if record.new_record? && record.send("has_#{attribute}_upload?") && record.send("#{attribute}_key") !~ record.send(attribute).key_regexp
             record.errors.add(
               attribute,
               :carrierwave_direct_filename_invalid,
