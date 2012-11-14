@@ -41,11 +41,13 @@ module CarrierWaveDirect
 
     def key
       return @key if @key.present?
-      if url.present?
+      
+      if url.present? && url != default_url
         self.key = URI.parse(url).path # explicitly set key
       else
         @key = "#{store_dir}/#{guid}/#{FILENAME_WILDCARD}"
       end
+      
       @key
     end
 
