@@ -45,6 +45,17 @@ module CarrierWaveDirect
         def has_remote_#{column}_net_url?
           send(:remote_#{column}_net_url).present?
         end
+        
+        def #{column}_url(*args)
+          if respond_to?('processing_#{column}?') && processing_#{column}?
+            # stub version name just of current uploader instance and return args.first
+            eval("class << _mounter(:#{column}).uploader; def version_name; " + args.first.inspect + "; end; end")
+            
+            _mounter(:#{column}).uploader.default_url
+          else
+            _mounter(:#{column}).url(*args)
+          end
+        end
       RUBY
     end
   end
