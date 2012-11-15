@@ -54,6 +54,23 @@ describe CarrierWaveDirect::Mount do
 
     it_should_delegate(:video_key, :to => "video#key", :accessible => {"has_video_upload?" => false})
 
+    describe "#video_url" do
+      context 'responds to processing_video and returns true' do
+        before do
+          class << subject; def processing_video?; true; end; end
+        end
+        
+        it 'returns the default url' do
+          subject.video_url(:small).should == "/assets/default-avatar-small.png"
+        end
+      end
+      
+      context 'do not respond to processing_video' do
+        it 'returns the default url' do
+          expect { subject.video_url(:small) }.to raise_error("Version small doesn't exist!")
+        end
+      end
+    end
   end
 end
 
