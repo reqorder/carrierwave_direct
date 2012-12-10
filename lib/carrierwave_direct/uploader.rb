@@ -43,7 +43,7 @@ module CarrierWaveDirect
       return @key if @key.present?
       
       if url.present? && url != default_url
-        path = URI.parse(url).path
+        path = URI.parse(URI.encode(url.strip)).path
         path = path[1, path.length - 1] if store_dir[0] != '/' && path[0] == '/'
         self.key = path # explicitly set key
       else
